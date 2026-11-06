@@ -17,7 +17,7 @@
     <!-- ===== HEADER Y NAVEGACIÓN ===== -->
     <header id="top">
       <a href="#top" class="brand">
-        <img src="assets/logo.png" alt="Creaked Thinking by Mike Garcia">
+        <img src="assets/logo.png" alt="Creaked Thinking by Mike Garcia" width="150" height="80">
       </a>
       <nav id="nav">
         <a href="#work" data-en="Portfolio" data-es="Portafolio"></a>
@@ -60,23 +60,7 @@
           </div>
         </div>
         <div class="phone-wrap">
-          <div class="phone">
-            <div class="notch"></div>
-            <div class="scr">
-              <div class="ig">
-                <i></i>
-                <b>your.brand</b>
-              </div>
-              <div class="post">
-                <span>DEMO</span>
-              </div>
-              <div class="row">
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-          </div>
+          <img class="phone-img" src="assets/iphone_demo.jpg" alt="Smartphone showing social media content created by Creaked Thinking" fetchpriority="high">
           <span class="tag t1">Video Editing</span>
           <span class="tag t2">Graphic Design</span>
           <span class="tag t3">Ready to Publish</span>
@@ -107,15 +91,15 @@
           data-es="Tu material tiene potencial. Lo hacemos brillar."
         ></p>
         <div class="cmp" id="cmp">
-          <div class="after">
-            <b>FINAL EDIT</b>
-            <span>DEMO</span>
+          <!-- Para usar fotos/videos reales: dentro de cada capa agrega <img src="assets/raw.jpg" alt="..."> (ambas con las mismas dimensiones) -->
+          <div class="cmp-layer cmp-after"><span class="cmp-demo">DEMO</span></div>
+          <div class="cmp-layer cmp-before"><span class="cmp-demo">DEMO</span></div>
+          <span class="cmp-tag cmp-tag-l">BEFORE · RAW</span>
+          <span class="cmp-tag cmp-tag-r">AFTER · FINAL EDIT</span>
+          <div class="cmp-handle">
+            <span class="cmp-line"></span>
+            <button type="button" class="cmp-knob" id="cmp-knob" role="slider" aria-label="Before and after comparison" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></button>
           </div>
-          <div class="before">
-            <b>RAW</b>
-          </div>
-          <input type="range" min="0" max="100" value="50" id="rng" aria-label="Before / After">
-          <div class="knob"></div>
         </div>
       </section>
 
@@ -224,13 +208,13 @@
           <div class="cta">
             <a
               class="btn"
-              id="wa"
+              id="wa" href="https://wa.me/57312570514"
               target="_blank"
-              rel="noopener"
-              data-en="LET'S TALK ABOUT YOUR PROJECT"
-              data-es="HABLEMOS DE TU PROYECTO"
+              rel="noopener noreferrer"
+              data-en="LET'S BUILD SOMETHING TOGETHER"
+              data-es="CONSTRUYAMOS ALGO JUNTOS"
             ></a>
-            <a class="btn ghostb" id="mail" data-en="Send an Email" data-es="Enviar correo" href="mailto:mg34052@gmail.com"></a>
+            <a class="btn ghostb" id="mail" href="mailto:mg34052@gmail.com" data-en="Send an Email" data-es="Enviar correo"></a>
           </div>
           <small
             data-en="No pressure. Just ideas, creativity and a great conversation."
@@ -257,7 +241,7 @@
 
     <!-- ===== FOOTER ===== -->
     <footer>
-      <img src="assets/logo.png" alt="Creaked Thinking" width="300">
+      <img src="assets/logo.png" alt="Creaked Thinking" width="120" height="64">
       <p
         data-en="Creating content with purpose, personality and visual impact."
         data-es="Creando contenido con propósito, personalidad e impacto visual."

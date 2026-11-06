@@ -2,11 +2,13 @@
    CONFIGURACIÓN — edita aquí WhatsApp, correo y redes
    ======================================================== */
 const CONFIG = {
-  whatsapp: "",
-  email: "",
+  whatsapp: "57312570514",
+  email: "mg34052@gmail.com",
   instagram: "",
   tiktok: "",
-  defaultLang: "en"
+  defaultLang: "en",
+  waMessage: "Hi! I found Creaked Thinking and I'm excited to explore the possibility of working together. I'd love to tell you about my project and see how we can create something amazing together!",
+  emailSubject: "Creative Project Inquiry — Creaked Thinking"
 };
 
 /* ========================================================
@@ -335,17 +337,22 @@ const cats = [
 /* ========================================================
    WHATSAPP
    ======================================================== */
-const wa = msg => CONFIG.whatsapp ? `https://wa.me/${ CONFIG.whatsapp }?text=${ encodeURIComponent(msg) }` : "3125570514";
+const wa = msg => CONFIG.whatsapp ? `https://wa.me/${ CONFIG.whatsapp }?text=${ encodeURIComponent(msg) }` : "#contact";
 
 /* ========================================================
    RENDER: pinta planes, tarjetas, pasos, extras y FAQ
    ======================================================== */
 function render() {
-  $("#plans").innerHTML = plans.map(p => `<article class="plan ${ p.rec ? "rec" : "" }">${ p.rec ? "<span class=\"badge\">★ RECOMMENDED</span>" : "" }<h3>${ p.n }</h3><p class="d">${ L(p.d) }</p><div class="pr">${ p.p }<small>COP / ${ lang == "es" ? "mes" : "month" }</small></div><ul>${ p.f[lang].map(x => `<li>${ x }</li>`).join("") }</ul><div class="del">${ lang == "es" ? "Entrega" : "Estimated delivery" }: ${ p.t } ${ lang == "es" ? "días hábiles" : "business days" }</div><a class="btn" href="${ wa(`Hi! I'm interested in the ${ p.n } plan. I'd like to know more.`) }" target="_blank" rel="noopener">${ lang == "es" ? "Elegir" : "Choose" } ${ p.n }</a></article>`).join("");
+  $("#plans").innerHTML = plans.map(p => `<article class="plan ${ p.rec ? "rec" : "" }">${ p.rec ? "<span class=\"badge\">★ RECOMMENDED</span>" : "" }<h3>${ p.n }</h3><p class="d">${ L(p.d) }</p><div class="pr">${ p.p }<small>COP / ${ lang == "es" ? "mes" : "month" }</small></div><ul>${ p.f[lang].map(x => `<li>${ x }</li>`).join("") }</ul><div class="del">${ lang == "es" ? "Entrega" : "Estimated delivery" }: ${ p.t } ${ lang == "es" ? "días hábiles" : "business days" }</div><a class="btn" href="${ wa(`Hi! I'm interested in the ${ p.n } plan. I'd like to know more.`) }" target="_blank" rel="noopener noreferrer">${ lang == "es" ? "Elegir" : "Choose" } ${ p.n }</a></article>`).join("");
   const pick = (a, i) => lang == "es" ? a[i + 2] : a[i];
   $("#why-c").innerHTML = why.map((w, i) => `<div class="card rv"><b>0${ i + 1 }</b><h3>${ pick(w, 0) }</h3><p>${ pick(w, 1) }</p></div>`).join("");
   $("#steps").innerHTML = steps.map((s, i) => `<li class="rv"><b>0${ i + 1 }</b><h3>${ pick(s, 0) }</h3><p>${ pick(s, 1) }</p></li>`).join("");
-  $("#extras").innerHTML = extras.map(e => `<div><span>${ lang == "es" ? e[1] : e[0] }</span><b>${ e[2].replace("from", "from") } ${ /COP/.test(e[2]) ? "" : "COP" }</b></div>`).join("");
+  $("#extras").innerHTML = extras.map((e, i) => {
+    const es = lang == "es", from = /^from/.test(e[2]), amount = e[2].replace(/^from\s*/, "");
+    const cat = i < 5 ? (es ? "Diseño gráfico" : "Graphic design") : (es ? "Edición de video" : "Video editing");
+    const d = (i % 4) * 80; // escalonado solo en la entrada (no retrasa el hover)
+    return `<article class="xc rv" style="transition-delay:${ d }ms,${ d }ms,0s,0s,0s"><small>${ cat }</small><h4>${ es ? e[1] : e[0] }</h4><p class="xp">${ from ? `<span>${ es ? "desde" : "from" }</span>` : "" }<b>${ amount }</b><span>COP</span></p></article>`;
+  }).join("");
   $("#faq-l").innerHTML = faq.map(f => `<details><summary>${ pick(f, 0) }</summary><p>${ pick(f, 1) }</p></details>`).join("");
   observe();
 }
@@ -399,7 +406,35 @@ document.addEventListener("click", e => {
 });
 $("#lbx").onclick = () => $("#lb").close();
 $("#lang").onclick = () => setLang(lang == "en" ? "es" : "en");
-$("#rng").oninput = e => $("#cmp").style.setProperty("--p", e.target.value + "%");
+/* Comparador Before & After: pointer events (mouse + táctil), arrastre desde cualquier punto, teclado */
+function initCompare() {
+  const box = $("#cmp"), knob = $("#cmp-knob");
+  let drag = false;
+  const set = v => {
+    v = Math.max(0, Math.min(100, v));
+    box.style.setProperty("--p", v + "%");
+    knob.setAttribute("aria-valuenow", Math.round(v));
+  };
+  const move = e => { const r = box.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
+  const end = () => { drag = false; box.classList.remove("drag"); };
+  box.addEventListener("pointerdown", e => { drag = true; box.setPointerCapture(e.pointerId); box.classList.add("drag"); move(e); });
+  box.addEventListener("pointermove", e => { if (drag) move(e); });
+  box.addEventListener("pointerup", end);
+  box.addEventListener("pointercancel", end);
+  knob.addEventListener("keydown", e => {
+    const cur = +knob.getAttribute("aria-valuenow"), k = { ArrowLeft: cur - 5, ArrowRight: cur + 5, Home: 0, End: 100 }[e.key];
+    if (k !== undefined) { e.preventDefault(); set(k); }
+  });
+  set(50);
+}
+initCompare();
+/* Tarjetas extra: luz que sigue al cursor + :active táctil en iOS */
+$("#extras").addEventListener("pointermove", e => {
+  const c = e.target.closest(".xc"); if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty("--mx", (e.clientX - r.left) + "px"); c.style.setProperty("--my", (e.clientY - r.top) + "px");
+});
+document.addEventListener("touchstart", () => {}, { passive: true });
 $("#burger").onclick = e => {
   const o = $("#nav").classList.toggle("open");
   e.target.setAttribute("aria-expanded", o);
@@ -411,9 +446,12 @@ addEventListener("scroll", () => $("header").classList.toggle("s", scrollY > 40)
    INICIALIZACIÓN (arranque de la página)
    ======================================================== */
 $("#yr").textContent = new Date().getFullYear();
-$("#wa").href = wa("Hi! I found your website and I'm interested in your creative services. I'd love to discuss a project with you.");
-$("#mail").href = CONFIG.email ? `mailto:${ CONFIG.email }` : "mg34052@gmail.com";
-$("#ig").href = CONFIG.instagram || "#";
-$("#tt").href = CONFIG.tiktok || "#";
+$("#wa").href = wa(CONFIG.waMessage);
+$("#mail").href = CONFIG.email ? `mailto:${ CONFIG.email }?subject=${ encodeURIComponent(CONFIG.emailSubject) }` : "#contact";
+// Redes: si no hay URL configurada, el enlace se oculta (no queda ningún botón sin destino)
+[["#ig", CONFIG.instagram], ["#tt", CONFIG.tiktok]].forEach(([s, u]) => {
+  const a = $(s);
+  if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; } else a.hidden = true;
+});
 grid();
 setLang(lang);
