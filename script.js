@@ -2,13 +2,13 @@
    CONFIGURACIÓN — edita aquí WhatsApp, correo y redes
    ======================================================== */
 const CONFIG = {
-  whatsapp: "57312570514",
+  whatsapp: "+573125570514",
   email: "mg34052@gmail.com",
   instagram: "",
   tiktok: "",
   defaultLang: "en",
-  waMessage: "Hi! I found Creaked Thinking and I'm excited to explore the possibility of working together. I'd love to tell you about my project and see how we can create something amazing together!",
-  emailSubject: "Creative Project Inquiry — Creaked Thinking"
+  waMessage: "Hi, I came across Creaked Thinking and I'm interested in your video editing and graphic design services. I have a project in mind and would love to discuss how we could work together.",
+  emailSubject: "Creative Project Inquiry — Creaked Thinking"       
 };
 
 /* ========================================================
@@ -17,15 +17,15 @@ const CONFIG = {
 let lang = CONFIG.defaultLang;
 const $ = s => document.querySelector(s);
 const L = o => o[lang] || o.en;
-const cop = n => "$" + n.toLocaleString("es-CO") + " COP";
+const cop = n => "$" + n.toLocaleString("es-CO") + " USD";
 
 /* ========================================================
    DATOS: PLANES (precios, ítems y días de entrega)
    ======================================================== */
 const plans = [
   {
-    n: "Raíz",
-    p: "$350.000",
+    n: "Starter",
+    p: "$99",
     d: {
       en: "Start building your digital presence.",
       es: "Empieza a construir tu presencia digital."
@@ -47,8 +47,8 @@ const plans = [
     t: 8
   },
   {
-    n: "Pulso",
-    p: "$650.000",
+    n: "Momentum",
+    p: "$199",
     rec: 1,
     d: {
       en: "Keep your brand moving with consistent content.",
@@ -73,8 +73,8 @@ const plans = [
     t: 15
   },
   {
-    n: "Ritmo",
-    p: "$950.000",
+    n: "Growth",
+    p: "$299",
     d: {
       en: "Increase your content frequency and visual consistency.",
       es: "Aumenta la frecuencia y la coherencia visual de tu contenido."
@@ -98,8 +98,8 @@ const plans = [
     t: 20
   },
   {
-    n: "Impacto",
-    p: "$1.450.000",
+    n: "Impact",
+    p: "$499",
     d: {
       en: "High-volume content production for ambitious brands.",
       es: "Producción de contenido de alto nivel."
@@ -209,42 +209,42 @@ const extras = [
   [
     "Static post",
     "Publicación estática",
-    "$65.000"
+    "$20"
   ],
   [
     "Story",
     "Historia",
-    "$40.000"
+    "$12"
   ],
   [
     "Carousel up to 4 slides",
     "Carrusel hasta 4 diapositivas",
-    "$180.000"
+    "$55"
   ],
   [
     "Additional carousel slide",
     "Diapositiva adicional",
-    "$45.000"
+    "$14"
   ],
   [
     "Format adaptation",
     "Adaptación de formato",
-    "from $25.000"
+    "from $8"
   ],
   [
     "Vertical video up to 30s",
     "Video vertical hasta 30 s",
-    "$140.000"
+    "$45"
   ],
   [
     "Vertical video 31–60s",
     "Video vertical 31–60 s",
-    "$180.000"
+    "$60"
   ],
   [
     "Advanced video editing",
     "Edición avanzada de video",
-    "from $200.000"
+    "from $65"
   ]
 ];
 
@@ -343,7 +343,7 @@ const wa = msg => CONFIG.whatsapp ? `https://wa.me/${ CONFIG.whatsapp }?text=${ 
    RENDER: pinta planes, tarjetas, pasos, extras y FAQ
    ======================================================== */
 function render() {
-  $("#plans").innerHTML = plans.map(p => `<article class="plan ${ p.rec ? "rec" : "" }">${ p.rec ? "<span class=\"badge\">★ RECOMMENDED</span>" : "" }<h3>${ p.n }</h3><p class="d">${ L(p.d) }</p><div class="pr">${ p.p }<small>COP / ${ lang == "es" ? "mes" : "month" }</small></div><ul>${ p.f[lang].map(x => `<li>${ x }</li>`).join("") }</ul><div class="del">${ lang == "es" ? "Entrega" : "Estimated delivery" }: ${ p.t } ${ lang == "es" ? "días hábiles" : "business days" }</div><a class="btn" href="${ wa(`Hi! I'm interested in the ${ p.n } plan. I'd like to know more.`) }" target="_blank" rel="noopener noreferrer">${ lang == "es" ? "Elegir" : "Choose" } ${ p.n }</a></article>`).join("");
+  $("#plans").innerHTML = plans.map(p => `<article class="plan ${ p.rec ? "rec" : "" }">${ p.rec ? "<span class=\"badge\">★ RECOMMENDED</span>" : "" }<h3>${ p.n }</h3><p class="d">${ L(p.d) }</p><div class="pr">${ p.p }<small>USD / ${ lang == "es" ? "mes" : "month" }</small></div><ul>${ p.f[lang].map(x => `<li>${ x }</li>`).join("") }</ul><div class="del">${ lang == "es" ? "Entrega" : "Estimated delivery" }: ${ p.t } ${ lang == "es" ? "días hábiles" : "business days" }</div><a class="btn" href="${ wa(`Hi! I'm interested in the ${ p.n } plan. I'd like to know more.`) }" target="_blank" rel="noopener noreferrer">${ lang == "es" ? "Elegir" : "Choose" } ${ p.n }</a></article>`).join("");
   const pick = (a, i) => lang == "es" ? a[i + 2] : a[i];
   $("#why-c").innerHTML = why.map((w, i) => `<div class="card rv"><b>0${ i + 1 }</b><h3>${ pick(w, 0) }</h3><p>${ pick(w, 1) }</p></div>`).join("");
   $("#steps").innerHTML = steps.map((s, i) => `<li class="rv"><b>0${ i + 1 }</b><h3>${ pick(s, 0) }</h3><p>${ pick(s, 1) }</p></li>`).join("");
@@ -351,7 +351,7 @@ function render() {
     const es = lang == "es", from = /^from/.test(e[2]), amount = e[2].replace(/^from\s*/, "");
     const cat = i < 5 ? (es ? "Diseño gráfico" : "Graphic design") : (es ? "Edición de video" : "Video editing");
     const d = (i % 4) * 80; // escalonado solo en la entrada (no retrasa el hover)
-    return `<article class="xc rv" style="transition-delay:${ d }ms,${ d }ms,0s,0s,0s"><small>${ cat }</small><h4>${ es ? e[1] : e[0] }</h4><p class="xp">${ from ? `<span>${ es ? "desde" : "from" }</span>` : "" }<b>${ amount }</b><span>COP</span></p></article>`;
+    return `<article class="xc rv" style="transition-delay:${ d }ms,${ d }ms,0s,0s,0s"><small>${ cat }</small><h4>${ es ? e[1] : e[0] }</h4><p class="xp">${ from ? `<span>${ es ? "desde" : "from" }</span>` : "" }<b>${ amount }</b><span>USD</span></p></article>`;
   }).join("");
   $("#faq-l").innerHTML = faq.map(f => `<details><summary>${ pick(f, 0) }</summary><p>${ pick(f, 1) }</p></details>`).join("");
   observe();

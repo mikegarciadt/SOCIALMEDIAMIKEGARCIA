@@ -72,7 +72,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: .4rem 4vw;
-  transition: .3s;
+  transition: 1.3s;
 }
 
 header.s {
@@ -81,7 +81,7 @@ header.s {
 }
 
 header img {
-  height: 56px;
+  height: 40px;
   width: auto;
 }
 
@@ -271,18 +271,18 @@ h1 {
 
 .t1 {
   top: 12%;
-  left: 0;
+  left: 20%;
 }
 
 .t2 {
-  top: 50%;
-  right: -2%;
-  animation-delay: -2s;
+  top: 40%;
+  right: 10%;
+  animation-delay: -4s;
 }
 
 .t3 {
-  bottom: 12%;
-  left: 6%;
+  bottom:30%;
+  left: 15%;
   animation-delay: -4s;
 }
 
